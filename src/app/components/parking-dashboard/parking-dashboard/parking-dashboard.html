@@ -1,0 +1,31 @@
+<!-- Parking Dashboard Container -->
+<div class="Container mx-auto p-4">
+  <div class="bg-white shadow-lg rounded-xl p-6 mx-auto mb-6">
+    <h2 class="text-2xl font-bold text-gray-800 mb-4">Parking Dashboard</h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+      <!-- Total Slots -->
+      <div class="bg-blue-100 p-4 rounded-lg">
+        <p class="text-gray-600">Total Slots</p>
+        <p class="text-xl font-bold text-blue-700">{{ totalSlots() }}</p>
+      </div>
+
+      <!-- Occupied -->
+      <div class="bg-red-100 p-4 rounded-lg">
+        <p class="text-gray-600">Occupied</p>
+        <p class="text-xl font-bold text-red-600">{{ occupiedSlots() }}</p>
+      </div>
+
+      <!-- Free -->
+      <div class="bg-green-100 p-4 rounded-lg">
+        <p class="text-gray-600">Free</p>
+        <p class="text-xl font-bold text-green-600">{{ freeSlots() }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Chart Container -->
+<div class="bg-white shadow-lg rounded-xl p-6 max-w-lg mx-auto">
+  <h3 class="text-lg font-semibold mb-4 text-gray-700">📊 Slot Status Chart</h3>
+  <canvas #Canvas></canvas>
+</div>

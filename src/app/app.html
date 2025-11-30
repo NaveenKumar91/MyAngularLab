@@ -1,0 +1,26 @@
+<!-- NAVBAR -->
+<nav
+  class="bg-gray-900 text-white px-6 py-3 flex items-center gap-6 shadow-md"
+  *ngIf="auth.isLoggedIn()"
+>
+  <!-- Brand / Logo -->
+  <span class="text-lg font-bold">🅿️ Smart Parking</span>
+
+  <!-- Nav Links -->
+  <div class="flex gap-4">
+    <a routerLink="/" class="hover:text-blue-400 transition">Dashboard</a>
+    <a routerLink="/slots" class="hover:text-blue-400 transition">Slots</a>
+    <a routerLink="/entry" class="hover:text-blue-400 transition">Vehicle Entry</a>
+    <a routerLink="/exit" class="hover:text-blue-400 transition">Exit</a>
+  </div>
+
+  <!-- Logout Button -->
+  <button
+    class="ml-auto bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg text-sm transition"
+    (click)="logout()"
+  >
+    Logout
+  </button>
+</nav>
+
+<router-outlet></router-outlet>

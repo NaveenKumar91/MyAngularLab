@@ -1,0 +1,58 @@
+<!-- 🧠 Title -->
+<div class="container p-4 mx-auto bg-white shadow-lg rounded-xl">
+  <h2 class="text-xl font-semibold mb-4 text-gray-800"> Parking Slot Status</h2>
+
+  <!-- 🔍 Search Box -->
+  <input type="text" placeholder="Search slot or vehicle..."
+    class="w-full p-2 border rounded-lg shadow-sm focus:ring focus:ring-blue-300 mb-4"
+    (input)="searchTerm.set($event.target.value)" />
+
+  <!-- 📋 Table -->
+  <table class="w-full border-collapse shadow-lg rounded-lg overflow-hidden">
+    <thead class="bg-gray-200 text-gray-700">
+      <tr>
+        <th class="p-2 border">Slot</th>
+        <th class="p-2 border">Status</th>
+        <th class="p-2 border">Vehicle</th>
+        <th class="p-2 border">Entry Time</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (slot of pagedSlots(); track slot.id) {
+      <tr class="hover:bg-gray-100 transition">
+        <td class="p-2 border">{{ slot.slotNumber }}</td>
+        <td class="p-2 border">
+          <span class="px-2 py-1 text-sm rounded-lg"
+            [ngClass]="slot.occupied ? 'bg-red-500 text-white' : 'bg-green-500 text-white'">
+            {{ slot.occupied ? 'Occupied' : 'Free' }}
+          </span>
+        </td>
+        <td class="p-2 border">{{ slot.vehicleNumber || '-' }}</td>
+        <td class="p-2 border">{{ slot.entryTime ? (slot.entryTime | date:'medium') : '-' }}</td>
+      </tr>
+      } @empty {
+      <tr>
+        <td colspan="4" class="text-center p-4 text-gray-500">No results found.</td>
+      </tr>
+      }
+    </tbody>
+  </table>
+
+  <!-- 📌 Pagination Controls -->
+  <div class="flex items-center justify-center gap-4 mt-4">
+    <button class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition disabled:opacity-50"
+      (click)="prevPage()" [disabled]="currentPage() === 1">
+      Prev
+    </button>
+
+    <span class="font-medium">
+      Page {{ currentPage() }} / {{ totalPages() }}
+    </span>
+
+    <button class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition disabled:opacity-50"
+      (click)="nextPage()" [disabled]="currentPage() === totalPages()">
+      Next
+    </button>
+  </div>
+</div>
