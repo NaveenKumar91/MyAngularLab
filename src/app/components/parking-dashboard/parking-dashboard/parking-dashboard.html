@@ -1,31 +1,83 @@
 <!-- Parking Dashboard Container -->
-<div class="Container mx-auto p-4">
-  <div class="bg-white shadow-lg rounded-xl p-6 mx-auto mb-6">
-    <h2 class="text-2xl font-bold text-gray-800 mb-4">Parking Dashboard</h2>
+<div
+  class="container mx-auto p-4"
+  role="main"
+  aria-labelledby="dashboard-title"
+>
+  <div
+    class="bg-white shadow-lg rounded-xl p-4 sm:p-6 mx-auto mb-6"
+    role="region"
+    aria-labelledby="dashboard-summary"
+  >
+    <h2
+      id="dashboard-title"
+      class="text-xl sm:text-2xl font-bold text-gray-800 mb-4"
+      role="heading"
+      aria-level="1"
+    >
+      Parking Dashboard
+    </h2>
 
+    <!-- Summary Cards -->
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+
       <!-- Total Slots -->
-      <div class="bg-blue-100 p-4 rounded-lg">
-        <p class="text-gray-600">Total Slots</p>
-        <p class="text-xl font-bold text-blue-700">{{ totalSlots() }}</p>
+      <div
+        class="bg-blue-100 p-4 rounded-lg focus-within:ring-2 focus-within:ring-blue-500"
+        role="status"
+        tabindex="0"
+        aria-label="Total available slots"
+      >
+        <p class="text-gray-600 text-sm sm:text-base">Total Slots</p>
+        <p class="text-xl sm:text-2xl font-bold text-blue-700">
+          {{ totalSlots() }}
+        </p>
       </div>
 
       <!-- Occupied -->
-      <div class="bg-red-100 p-4 rounded-lg">
-        <p class="text-gray-600">Occupied</p>
-        <p class="text-xl font-bold text-red-600">{{ occupiedSlots() }}</p>
+      <div
+        class="bg-red-100 p-4 rounded-lg focus-within:ring-2 focus-within:ring-red-500"
+        role="status"
+        tabindex="0"
+        aria-label="Currently occupied slots"
+      >
+        <p class="text-gray-600 text-sm sm:text-base">Occupied</p>
+        <p class="text-xl sm:text-2xl font-bold text-red-600">
+          {{ occupiedSlots() }}
+        </p>
       </div>
 
       <!-- Free -->
-      <div class="bg-green-100 p-4 rounded-lg">
-        <p class="text-gray-600">Free</p>
-        <p class="text-xl font-bold text-green-600">{{ freeSlots() }}</p>
+      <div
+        class="bg-green-100 p-4 rounded-lg focus-within:ring-2 focus-within:ring-green-500"
+        role="status"
+        tabindex="0"
+        aria-label="Free parking slots"
+      >
+        <p class="text-gray-600 text-sm sm:text-base">Free</p>
+        <p class="text-xl sm:text-2xl font-bold text-green-600">
+          {{ freeSlots() }}
+        </p>
       </div>
+
     </div>
   </div>
 </div>
+
 <!-- Chart Container -->
-<div class="bg-white shadow-lg rounded-xl p-6 max-w-lg mx-auto">
-  <h3 class="text-lg font-semibold mb-4 text-gray-700">📊 Slot Status Chart</h3>
-  <canvas #Canvas></canvas>
+<div
+  class="bg-white shadow-lg rounded-xl p-4 sm:p-6 max-w-sm sm:max-w-lg mx-auto"
+  role="region"
+  aria-labelledby="chart-title"
+>
+  <h3
+    id="chart-title"
+    class="text-lg sm:text-xl font-semibold mb-4 text-gray-700"
+    role="heading"
+    aria-level="2"
+  >
+    📊 Slot Status Chart
+  </h3>
+
+  <canvas #Canvas aria-label="Parking slot status chart"></canvas>
 </div>

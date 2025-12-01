@@ -1,43 +1,107 @@
-<div class="flex items-center justify-center min-h-screen bg-gray-100">
-  <div class="bg-white shadow-xl rounded-2xl p-8 w-full max-w-sm">
-    
+<div
+  class="flex items-center justify-center min-h-screen bg-gray-100 px-4"
+  role="main"
+  aria-labelledby="login-title"
+>
+  <div
+    class="bg-white shadow-xl rounded-2xl p-4 sm:p-8 w-full max-w-xs sm:max-w-sm md:max-w-md"
+    role="form"
+  >
     <!-- Logo Section -->
     <div class="flex justify-center mb-6">
-      <img src="logo.png" alt="Logo" class="h-16 w-16 object-contain" />
-      <!-- Place your logo in src/assets/logo.png -->
+      <img
+        src="logo.png"
+        alt="Smart Parking Logo"
+        aria-hidden="true"
+        class="h-14 w-14 sm:h-16 sm:w-16"
+      />
     </div>
 
-    <h2 class="text-xl font-bold text-center text-gray-700 mb-4">Welcome Back</h2>
+    <!-- Heading -->
+    <h2
+      id="login-title"
+      class="text-lg sm:text-xl font-bold text-center text-gray-700 mb-4"
+    >
+      Welcome Back
+    </h2>
 
-    <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="space-y-4">
-      
+    <form
+      [formGroup]="loginForm"
+      (ngSubmit)="onLogin()"
+      class="space-y-4"
+      novalidate
+      aria-describedby="form-help"
+    >
       <!-- Username -->
       <div>
-        <label class="block text-gray-600 mb-1 text-sm">Username</label>
+        <label
+          for="username"
+          class="block text-gray-600 mb-1 text-sm font-semibold"
+          >Username<span class="text-red-600">*</span></label
+        >
         <input
+          id="username"
           formControlName="username"
-          class="w-full border border-gray-300 p-2 rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
-          placeholder="Enter username" />
+          class="w-full border border-gray-300 p-2 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+          placeholder="Enter username"
+          aria-required="true"
+          aria-invalid="{{ loginForm.get('username')?.invalid }}"
+        />
+
+        <!-- Error Message -->
+        <div
+          class="text-red-600 text-xs mt-1"
+          *ngIf="loginForm.get('username')?.touched && loginForm.get('username')?.invalid"
+          role="alert"
+        >
+          Username is required.
+        </div>
       </div>
 
       <!-- Password -->
       <div>
-        <label class="block text-gray-600 mb-1 text-sm">Password</label>
+        <label
+          for="password"
+          class="block text-gray-600 mb-1 text-sm font-semibold"
+          >Password<span class="text-red-600">*</span></label
+        >
         <input
+          id="password"
           formControlName="password"
           type="password"
-          class="w-full border border-gray-300 p-2 rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
-          placeholder="Enter password" />
+          aria-required="true"
+          aria-invalid="{{ loginForm.get('password')?.invalid }}"
+          class="w-full border border-gray-300 p-2 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+          placeholder="Enter password"
+        />
+
+        <!-- Error Message -->
+        <div
+          class="text-red-600 text-xs mt-1"
+          *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
+          role="alert"
+        >
+          Password is required.
+        </div>
       </div>
 
       <!-- Button -->
       <button
-        class="w-full bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 rounded-lg transition"
-        type="submit">
+        type="submit"
+        class="w-full bg-gray-700 hover:bg-gray-800 text-white font-semibold py-2 rounded-lg transition focus:ring-2 focus:ring-gray-500 focus:outline-none"
+        aria-label="Login"
+      >
         Login
       </button>
     </form>
-    <label class="block text-gray-600 mb-1 text-center text-sm mt-4">Username : admin</label>
-    <label class="block text-gray-600 mb-1 text-center text-sm">Password : admin123</label>
+
+    <!-- Demo Credentials -->
+    <div
+      class="mt-4 text-center text-xs text-gray-600"
+      id="form-help"
+      tabindex="0"
+    >
+      Use username: <b>admin</b> & password: <b>admin123</b>
+    </div>
   </div>
 </div>

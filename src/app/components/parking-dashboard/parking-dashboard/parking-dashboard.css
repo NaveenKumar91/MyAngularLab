@@ -2,3 +2,10 @@ canvas {
   width: 450px!important;
   height: 400px!important;
 }
+
+@media screen and (max-width:768px) {
+  canvas {
+  width: 300px!important;
+  height: 300px!important;
+}
+}

@@ -11,7 +11,8 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
   standalone: true
 })
 export class App {
-  protected title = 'MyAngularLab';
+  isMenuOpen = false; 
+  protected title = 'SmartParking';
   auth = inject(AuthService);
   router = inject(Router)
   logout() {

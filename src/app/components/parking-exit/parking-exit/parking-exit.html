@@ -1,26 +1,49 @@
-<div class="container p-4 mx-auto bg-white shadow-lg rounded-xl">
-  <h2 class="text-2xl font-bold text-gray-800 mb-4">Vehicle Exit & Billing</h2>
+<div
+  class="container p-4 sm:p-6 mx-auto bg-white shadow-lg rounded-xl"
+  role="main"
+  aria-labelledby="exit-page-title"
+>
+
+  <h2
+    id="exit-page-title"
+    class="text-xl sm:text-2xl font-bold text-gray-800 mb-4"
+    role="heading"
+    aria-level="1"
+  >
+    Vehicle Exit & Billing
+  </h2>
 
   <!-- 🔍 Search -->
+  <label for="searchInput" class="sr-only">Search slot or vehicle</label>
   <input
+    id="searchInput"
     type="text"
     placeholder="Search slot or vehicle..."
-    class="w-full border p-2 rounded mb-4 shadow-sm focus:ring focus:ring-blue-300"
+    class="w-full border p-2 rounded mb-4 shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
     (input)="searchTerm.set($event.target.value)"
+    aria-label="Search by slot number or vehicle number"
   />
 
   <!-- 🧾 Slot List -->
   @if (pagedSlots().length === 0) {
-    <p class="text-gray-500">No vehicles found.</p>
+    <p class="text-gray-500" role="alert">No vehicles found.</p>
   } @else {
-    <ul class="space-y-3">
+    <ul class="space-y-3" role="list">
       @for (slot of pagedSlots(); track slot.id) {
-        <li class="flex justify-between items-center p-3 bg-gray-100 rounded-lg">
-          <span>{{ slot.slotNumber }} - {{ slot.vehicleNumber }}</span>
+        <li
+          class="flex flex-col sm:flex-row justify-between items-start sm:items-center p-3 bg-gray-100 rounded-lg"
+          tabindex="0"
+          aria-label="Slot {{ slot.slotNumber }} with vehicle number {{ slot.vehicleNumber }}"
+        >
+          <span class="text-gray-800 font-medium">
+            {{ slot.slotNumber }} - {{ slot.vehicleNumber }}
+          </span>
 
           <button
             (click)="exit(slot.id)"
-            class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition">
+            class="w-full sm:w-auto mt-2 sm:mt-0 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg focus:ring-2 focus:ring-red-400 focus:outline-none transition"
+            aria-label="Exit and bill for slot {{ slot.slotNumber }}"
+          >
             Exit & Bill
           </button>
         </li>
@@ -29,22 +52,38 @@
   }
 
   <!-- 📄 Pagination -->
-  <div class="flex justify-center items-center gap-4 mt-4">
-    <button (click)="prevPage()" 
-            [disabled]="currentPage() === 1"
-            class="bg-gray-200 px-3 py-1 rounded disabled:opacity-50">Prev</button>
+  <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mt-6">
 
-    <span>Page {{ currentPage() }} / {{ totalPages() }}</span>
+    <button
+      (click)="prevPage()"
+      [disabled]="currentPage() === 1"
+      class="bg-gray-200 px-3 py-2 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none disabled:opacity-50 transition w-full sm:w-auto"
+      aria-label="Go to previous page"
+    >
+      Prev
+    </button>
 
-    <button (click)="nextPage()" 
-            [disabled]="currentPage() === totalPages()"
-            class="bg-gray-200 px-3 py-1 rounded disabled:opacity-50">Next</button>
+    <span aria-live="polite" class="text-sm sm:text-base">
+      Page {{ currentPage() }} / {{ totalPages() }}
+    </span>
+
+    <button
+      (click)="nextPage()"
+      [disabled]="currentPage() === totalPages()"
+      class="bg-gray-200 px-3 py-2 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none disabled:opacity-50 transition w-full sm:w-auto"
+      aria-label="Go to next page"
+    >
+      Next
+    </button>
   </div>
 
-  <!-- 🔔 Toast -->
+  <!-- 🔔 Toast Notification -->
   @if (toastMessage()) {
     <div
-      class="fixed bottom-6 right-6 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg animate-slide-in">
+      class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 bg-green-600 text-white px-4 py-3 rounded-lg shadow-lg animate-slide-in border border-white/30 focus:ring-2 focus:ring-white"
+      role="status"
+      aria-live="assertive"
+    >
       {{ toastMessage() }}
     </div>
   }

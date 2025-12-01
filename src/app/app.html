@@ -1,26 +1,92 @@
-<!-- NAVBAR -->
 <nav
-  class="bg-gray-900 text-white px-6 py-3 flex items-center gap-6 shadow-md"
+  class="bg-gray-900 text-white px-6 py-3 shadow-md"
+  role="navigation"
+  aria-label="Main Navigation"
   *ngIf="auth.isLoggedIn()"
 >
-  <!-- Brand / Logo -->
-  <span class="text-lg font-bold">🅿️ Smart Parking</span>
+  <div class="flex items-center justify-between">
+    
+    <!-- Logo -->
+    <span class="text-lg font-bold" role="heading" aria-level="1">
+      🅿️ Smart Parking
+    </span>
 
-  <!-- Nav Links -->
-  <div class="flex gap-4">
-    <a routerLink="/" class="hover:text-blue-400 transition">Dashboard</a>
-    <a routerLink="/slots" class="hover:text-blue-400 transition">Slots</a>
-    <a routerLink="/entry" class="hover:text-blue-400 transition">Vehicle Entry</a>
-    <a routerLink="/exit" class="hover:text-blue-400 transition">Exit</a>
+    <!-- Nav Links (Hidden on Mobile) -->
+    <div class="hidden sm:flex gap-4 ml-6" role="menubar">
+      <a
+        routerLink="/"
+        role="menuitem"
+        tabindex="0"
+        aria-label="Go to Dashboard"
+        class="hover:text-blue-400 focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
+      >Dashboard</a>
+
+      <a
+        routerLink="/slots"
+        role="menuitem"
+        tabindex="0"
+        aria-label="Check Parking Slots"
+        class="hover:text-blue-400 focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
+      >Slots</a>
+
+      <a
+        routerLink="/entry"
+        role="menuitem"
+        tabindex="0"
+        aria-label="Vehicle Entry Page"
+        class="hover:text-blue-400 focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
+      >Vehicle Entry</a>
+
+      <a
+        routerLink="/exit"
+        role="menuitem"
+        tabindex="0"
+        aria-label="Vehicle Exit Page"
+        class="hover:text-blue-400 focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
+      >Exit</a>
+    </div>
+
+    <!-- Hamburger (Mobile Only) -->
+    <button
+      class="sm:hidden text-white text-2xl ml-auto focus:ring-2 focus:ring-blue-500 focus:outline-none"
+      (click)="isMenuOpen = !isMenuOpen"
+      aria-label="Toggle navigation menu"
+      aria-expanded="{{ isMenuOpen }}"
+      aria-controls="mobile-menu"
+    >
+      ☰
+    </button>
+
+    <!-- Logout Button (Desktop Only) -->
+    <button
+      class="hidden sm:block bg-red-500 hover:bg-red-600 focus:ring-2 focus:ring-red-400 focus:outline-none px-4 py-2 rounded-lg text-sm transition ml-auto"
+      (click)="logout()"
+      aria-label="Logout"
+    >
+      Logout
+    </button>
   </div>
 
-  <!-- Logout Button -->
-  <button
-    class="ml-auto bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg text-sm transition"
-    (click)="logout()"
+  <!-- Mobile Menu -->
+  <div
+    id="mobile-menu"
+    class="flex flex-col gap-3 mt-4 sm:hidden"
+    *ngIf="isMenuOpen"
+    role="menu"
   >
-    Logout
-  </button>
+    <a routerLink="/" role="menuitem" tabindex="0" class="hover:text-blue-400 focus:ring-2 focus:ring-blue-500 focus:outline-none">Dashboard</a>
+    <a routerLink="/slots" role="menuitem" tabindex="0" class="hover:text-blue-400 focus:ring-2 focus:ring-blue-500 focus:outline-none">Slots</a>
+    <a routerLink="/entry" role="menuitem" tabindex="0" class="hover:text-blue-400 focus:ring-2 focus:ring-blue-500 focus:outline-none">Vehicle Entry</a>
+    <a routerLink="/exit" role="menuitem" tabindex="0" class="hover:text-blue-400 focus:ring-2 focus:ring-blue-500 focus:outline-none">Exit</a>
+
+    <button
+      class="bg-red-500 hover:bg-red-600 focus:ring-2 focus:ring-red-400 focus:outline-none px-4 py-2 rounded-lg text-sm transition"
+      (click)="logout()"
+      aria-label="Logout"
+    >
+      Logout
+    </button>
+  </div>
 </nav>
 
 <router-outlet></router-outlet>

@@ -1,31 +1,76 @@
-<div class="container p-4 mx-auto bg-white shadow-lg rounded-xl">
-  <h2 class="text-2xl font-bold mb-4 text-gray-800">🚗 Vehicle Entry</h2>
+<div
+  class="container p-4 sm:p-6 mx-auto bg-white shadow-lg rounded-xl"
+  role="main"
+  aria-labelledby="vehicle-entry-title"
+>
+  <h2
+    id="vehicle-entry-title"
+    class="text-xl sm:text-2xl font-bold mb-4 text-gray-800"
+    role="heading"
+    aria-level="1"
+  >
+    Vehicle Entry
+  </h2>
 
-  <!-- Vehicle Number Input -->
-  <form [formGroup]="entryForm" class="space-y-3">
-    <label class="block font-medium">Vehicle Number</label>
+  <!-- Vehicle Number Form -->
+  <form
+    [formGroup]="entryForm"
+    class="space-y-3"
+    role="form"
+    aria-describedby="vehicle-help"
+  >
+    <label
+      for="vehicleNumber"
+      class="block font-medium text-gray-700"
+    >
+      Vehicle Number <span class="text-red-600">*</span>
+    </label>
+
     <input
+      id="vehicleNumber"
       formControlName="vehicleNumber"
       placeholder="e.g. TN09AB1234"
-      class="w-full border p-2 rounded-md shadow-sm focus:ring focus:ring-blue-400"
+      aria-required="true"
+      aria-invalid="{{ entryForm.get('vehicleNumber')?.invalid }}"
+      class="w-full border p-2 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
     />
 
     @if (entryForm.get('vehicleNumber')?.touched && entryForm.get('vehicleNumber')?.invalid) {
-      <p class="text-red-500 text-sm">Enter valid vehicle number</p>
+      <p class="text-red-500 text-sm" role="alert">
+        Enter a valid vehicle number.
+      </p>
     }
   </form>
 
+  <!-- Guidance -->
+  <p id="vehicle-help" class="text-xs text-gray-500 mt-2">
+    Format example: <b>TN09AB1234</b> (state, district, series, number)
+  </p>
+
   <!-- Free Slots -->
   @if (freeSlots.length === 0) {
-    <p class="text-red-600 mt-4">No free slots available.</p>
+    <p class="text-red-600 mt-4" role="alert">
+      No free slots available.
+    </p>
   } @else {
-    <h3 class="text-lg font-semibold mt-4">Free Slots Available</h3>
+    <h3
+      class="text-lg sm:text-xl font-semibold mt-4 text-gray-700"
+      aria-live="polite"
+    >
+      Free Slots Available
+    </h3>
+
     <ul class="mt-2 space-y-2">
       @for (slot of freeSlots; track slot.id) {
-        <li class="flex justify-between items-center p-3 border rounded-lg">
-          <span class="font-medium">{{ slot.slotNumber }}</span>
+        <li
+          class="flex flex-col sm:flex-row justify-between items-center p-3 border rounded-lg"
+          tabindex="0"
+          aria-label="Slot number {{ slot.slotNumber }}"
+        >
+          <span class="font-medium text-gray-800">{{ slot.slotNumber }}</span>
           <button
-            class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition"
+            class="w-full sm:w-auto mt-2 sm:mt-0 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition focus:ring-2 focus:ring-green-500 focus:outline-none"
+            aria-label="Assign vehicle to slot {{ slot.slotNumber }}"
             (click)="assignVehicle(slot.id)"
           >
             Park Here
@@ -36,15 +81,21 @@
   }
 
   <!-- Success Message -->
-  @if (message) {
-    <p class="text-green-600 mt-4">{{ message }}</p>
-  }
-  
+ @if (toastMessage()) {
+  <p class="text-green-600 mt-4 font-medium" role="status">
+    {{ toastMessage() }}
+  </p>
+}
 </div>
+
+<!-- Toast Message -->
 @if (toastMessage()) {
   <div
-    class="fixed bottom-6 right-6 backdrop-blur-md bg-green-500/80 text-white px-5 py-3
-           rounded-2xl shadow-xl flex items-center gap-2 animate-slide-in border border-white/30">
+    class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 backdrop-blur-md bg-green-500/80 text-white px-5 py-3
+           rounded-2xl shadow-xl flex items-center gap-2 animate-slide-in border border-white/30 focus:ring-2 focus:ring-white"
+    role="status"
+    aria-live="assertive"
+  >
     <span class="font-medium">{{ toastMessage() }}</span>
   </div>
 }

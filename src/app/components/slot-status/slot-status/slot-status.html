@@ -1,57 +1,107 @@
-<!-- 🧠 Title -->
-<div class="container p-4 mx-auto bg-white shadow-lg rounded-xl">
-  <h2 class="text-xl font-semibold mb-4 text-gray-800"> Parking Slot Status</h2>
+<div
+  class="container p-4 sm:p-6 mx-auto bg-white shadow-lg rounded-xl"
+  role="main"
+  aria-labelledby="parking-status-title"
+>
+  <!-- 🧠 Title -->
+  <h2
+    id="parking-status-title"
+    class="text-lg sm:text-xl font-semibold mb-4 text-gray-800"
+    role="heading"
+    aria-level="1"
+  >
+    Parking Slot Status
+  </h2>
 
   <!-- 🔍 Search Box -->
-  <input type="text" placeholder="Search slot or vehicle..."
-    class="w-full p-2 border rounded-lg shadow-sm focus:ring focus:ring-blue-300 mb-4"
-    (input)="searchTerm.set($event.target.value)" />
+  <label for="search-input" class="sr-only">
+    Search by slot or vehicle number
+  </label>
+  <input
+    id="search-input"
+    type="text"
+    placeholder="Search slot or vehicle..."
+    class="w-full p-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none mb-4"
+    (input)="searchTerm.set($event.target.value)"
+    aria-label="Search for a parking slot or vehicle"
+  />
 
-  <!-- 📋 Table -->
-  <table class="w-full border-collapse shadow-lg rounded-lg overflow-hidden">
-    <thead class="bg-gray-200 text-gray-700">
-      <tr>
-        <th class="p-2 border">Slot</th>
-        <th class="p-2 border">Status</th>
-        <th class="p-2 border">Vehicle</th>
-        <th class="p-2 border">Entry Time</th>
-      </tr>
-    </thead>
+  <!-- 📋 Table (Scroll on Mobile) -->
+  <div class="overflow-x-auto" role="region" aria-labelledby="table-title">
+    <table
+      class="w-full border-collapse shadow-lg rounded-lg"
+      aria-describedby="table-description"
+    >
+      <caption id="table-title" class="sr-only">Parking Slot Details</caption>
 
-    <tbody>
-      @for (slot of pagedSlots(); track slot.id) {
-      <tr class="hover:bg-gray-100 transition">
-        <td class="p-2 border">{{ slot.slotNumber }}</td>
-        <td class="p-2 border">
-          <span class="px-2 py-1 text-sm rounded-lg"
-            [ngClass]="slot.occupied ? 'bg-red-500 text-white' : 'bg-green-500 text-white'">
-            {{ slot.occupied ? 'Occupied' : 'Free' }}
-          </span>
-        </td>
-        <td class="p-2 border">{{ slot.vehicleNumber || '-' }}</td>
-        <td class="p-2 border">{{ slot.entryTime ? (slot.entryTime | date:'medium') : '-' }}</td>
-      </tr>
-      } @empty {
-      <tr>
-        <td colspan="4" class="text-center p-4 text-gray-500">No results found.</td>
-      </tr>
-      }
-    </tbody>
-  </table>
+      <thead class="bg-gray-200 text-gray-700" role="rowgroup">
+        <tr role="row">
+          <th class="p-2 border text-left" scope="col">Slot</th>
+          <th class="p-2 border text-left" scope="col">Status</th>
+          <th class="p-2 border text-left" scope="col">Vehicle</th>
+          <th class="p-2 border text-left" scope="col">Entry Time</th>
+        </tr>
+      </thead>
+
+      <tbody role="rowgroup">
+        @for (slot of pagedSlots(); track slot.id) {
+          <tr
+            class="hover:bg-gray-100 transition focus-within:ring-2 focus-within:ring-blue-500"
+            role="row"
+            tabindex="0"
+            aria-label="Slot {{ slot.slotNumber }} {{ slot.occupied ? 'occupied' : 'free' }}"
+          >
+            <td class="p-2 border" role="cell">{{ slot.slotNumber }}</td>
+            <td class="p-2 border" role="cell">
+              <span
+                class="px-2 py-1 text-sm rounded-lg"
+                [ngClass]="slot.occupied ? 'bg-red-600 text-white' : 'bg-green-600 text-white'"
+                role="status"
+              >
+                {{ slot.occupied ? 'Occupied' : 'Free' }}
+              </span>
+            </td>
+            <td class="p-2 border" role="cell">{{ slot.vehicleNumber || '-' }}</td>
+            <td class="p-2 border" role="cell">
+              {{ slot.entryTime ? (slot.entryTime | date:'medium') : '-' }}
+            </td>
+          </tr>
+        } @empty {
+          <tr role="row">
+            <td colspan="4" class="text-center p-4 text-gray-500" role="cell">
+              No results found.
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+
+    <p id="table-description" class="sr-only">
+      Table showing parking slot number, status, vehicle number, and entry time.
+    </p>
+  </div>
 
   <!-- 📌 Pagination Controls -->
-  <div class="flex items-center justify-center gap-4 mt-4">
-    <button class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition disabled:opacity-50"
-      (click)="prevPage()" [disabled]="currentPage() === 1">
+  <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-6">
+    <button
+      (click)="prevPage()"
+      [disabled]="currentPage() === 1"
+      class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 focus:ring-2 focus:ring-blue-500 disabled:opacity-50 w-full sm:w-auto"
+      aria-label="Go to previous page"
+    >
       Prev
     </button>
 
-    <span class="font-medium">
+    <span aria-live="polite">
       Page {{ currentPage() }} / {{ totalPages() }}
     </span>
 
-    <button class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition disabled:opacity-50"
-      (click)="nextPage()" [disabled]="currentPage() === totalPages()">
+    <button
+      (click)="nextPage()"
+      [disabled]="currentPage() === totalPages()"
+      class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 focus:ring-2 focus:ring-blue-500 disabled:opacity-50 w-full sm:w-auto"
+      aria-label="Go to next page"
+    >
       Next
     </button>
   </div>
